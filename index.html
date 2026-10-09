@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jewellery of the Earth | Homepage concepts</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='16' height='32' fill='%230E3426'/%3E%3Crect x='16' width='16' height='32' fill='%23D6DADF'/%3E%3C/svg%3E">
+  <link rel="preload" href="shared/fonts/commissioner-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="shared/fonts/bodoni-moda-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="shared/fonts/fonts.css">
+  <style>
+    :root {
+      --kawakawa: #0E3426; --inanga: #D3E0D0; --glow: #8EF0B4;
+      --silver: #D6DADF; --indigo: #1C2449; --pounamu: #2F6B4F; --turquoise: #2BA39A; --amber: #D9861C;
+      --ease: cubic-bezier(.2, .7, .1, 1);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { background: #fff; color: #1d2320; font-family: "Schibsted Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .bar {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 24px;
+      padding: 14px clamp(16px, 3vw, 32px); font-size: .95rem;
+    }
+    .bar strong { font-weight: 600; }
+    .bar span { color: #5d6461; }
+    .concepts { display: flex; min-height: calc(100svh - 50px); }
+    .concept {
+      position: relative; flex: 1 1 0; display: flex; flex-direction: column; justify-content: flex-end;
+      overflow: hidden; text-decoration: none; isolation: isolate;
+      padding: clamp(28px, 5vw, 64px); transition: flex-grow .9s var(--ease);
+    }
+    .concept:hover, .concept:focus-visible { flex-grow: 1.35; }
+    .concept:focus-visible { outline: 3px solid var(--glow); outline-offset: -6px; }
+    .concept__text { position: relative; display: grid; gap: 14px; justify-items: start; max-width: 32rem; }
+    .concept h2 { margin: 0; line-height: 1; }
+    .concept p { margin: 0; line-height: 1.55; max-width: 34em; }
+    .open {
+      display: inline-flex; align-items: center; min-height: 52px; padding: 0 30px;
+      font-size: .72rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; margin-top: 12px; transition: transform .8s var(--ease);
+    }
+    .concept:hover .open { transform: translateX(6px); }
+
+    /* Concept A: polished greenstone, lit from behind */
+    .a { background: var(--kawakawa); color: var(--inanga); font-family: "Commissioner", sans-serif; }
+    .a::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(circle at 68% 34%, rgb(142 240 180 / .55), transparent 28%),
+        radial-gradient(ellipse 60% 50% at 70% 36%, #2f7a52 0%, #164a34 45%, transparent 75%),
+        radial-gradient(ellipse 80% 30% at 20% 80%, rgb(211 224 208 / .07), transparent 70%),
+        var(--kawakawa);
+      transition: transform 1.4s var(--ease);
+    }
+    .a:hover::before { transform: scale(1.04); }
+    .a h2 { font-size: clamp(2.6rem, 5vw, 4.6rem); font-weight: 300; font-variation-settings: "FLAR" 100, "VOLM" 0; letter-spacing: -.01em; }
+    .a .open { background: var(--inanga); color: var(--kawakawa); }
+
+    /* Concept B: engraved silver with four set stones */
+    .b { background: var(--silver); color: var(--indigo); }
+    .b::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background:
+        repeating-linear-gradient(135deg, transparent 0 18px, rgb(28 36 73 / .07) 18px 19px),
+        repeating-linear-gradient(45deg, transparent 0 18px, rgb(28 36 73 / .07) 18px 19px),
+        linear-gradient(160deg, #eef0f2, #c3c8ce 60%, #e2e5e8);
+    }
+    .b .stones { position: absolute; top: 16%; right: 14%; width: 190px; height: 190px; }
+    .b .stones i {
+      position: absolute; width: 58px; height: 58px; border-radius: 50%;
+      box-shadow: 0 0 0 5px #e9ecef, 0 0 0 6px rgb(28 36 73 / .35), 0 8px 18px rgb(28 36 73 / .3);
+    }
+    .b .stones i:nth-child(1) { left: 66px; top: 0; background: radial-gradient(circle at 35% 30%, #7fbf98, var(--pounamu) 55%, #123826); }
+    .b .stones i:nth-child(2) { right: 0; top: 66px; background: radial-gradient(circle at 35% 30%, #9fe3d8, var(--turquoise) 55%, #165c56); }
+    .b .stones i:nth-child(3) { left: 66px; bottom: 0; background: radial-gradient(circle at 35% 30%, #ffd58a, var(--amber) 55%, #7a3f05); }
+    .b .stones i:nth-child(4) { left: 0; top: 66px; background: conic-gradient(from 40deg, #9fd8ff, #ffb3e0, #c8ffb0, #fff3a6, #9fd8ff); }
+    .b h2 { font-family: "Bodoni Moda", serif; font-size: clamp(2.6rem, 5vw, 4.6rem); font-weight: 560; font-variation-settings: "opsz" 40; letter-spacing: -.01em; }
+    .b .open { background: var(--indigo); color: var(--silver); }
+
+    @media (max-width: 760px) {
+      .concepts { flex-direction: column; }
+      .concept { min-height: 72svh; }
+      .b .stones { top: 10%; right: 10%; transform: scale(.8); transform-origin: top right; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .concept, .concept::before, .open { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <strong>Jewellery of the Earth: two homepage concepts</strong>
+    <span>Prepared by WebM8, October 2026. Choose one to take forward.</span>
+  </header>
+  <main class="concepts">
+    <a class="concept a" href="design-a/">
+      <div class="concept__text">
+        <h2>Held to the light</h2>
+        <p>Pounamu first. A river stone splits open on arrival and glows wherever your cursor shines through it, the way greenstone does when you hold it up to the sun.</p>
+        <span class="open">Open concept A</span>
+      </div>
+    </a>
+    <a class="concept b" href="design-b/">
+      <div class="stones" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="concept__text">
+        <h2>Four corners of the world</h2>
+        <p>The whole collection. A Tuareg silver plate is engraved before your eyes and four stones are set into it: pounamu, turquoise, amber and opal, each a door into where it came from.</p>
+        <span class="open">Open concept B</span>
+      </div>
+    </a>
+  </main>
+</body>
+</html>
