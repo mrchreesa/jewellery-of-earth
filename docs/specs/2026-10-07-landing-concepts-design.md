@@ -1,6 +1,6 @@
 # Jewellery of the Earth: two landing-page concepts
 
-Date: 2026-10-07 · Status: built; luxury refinement pass applied at the user's request
+Date: 2026-10-07 · Status: built; luxury refinement pass and scroll motion pass (2026-10-09) applied at the user's request
 
 ## Context
 
@@ -72,7 +72,7 @@ Tokens: Silver #D6DADF (page), Indigo #1C2449 (text), Pounamu #2F6B4F, Turquoise
 - Render resolution capped (DPR ≤ 1.5); animation pauses when the hero is off-screen or the tab is hidden.
 - Responsive to 360px wide, 16px side gutters minimum, no horizontal scroll; touch replaces pointer.
 - Visible keyboard focus everywhere.
-- No numbered section markers, no ALL-CAPS eyebrow labels, motion outside the hero only in response to the visitor.
+- No numbered section markers, no ALL-CAPS eyebrow labels. Motion outside the hero responds to the visitor (scrolling, pointer, clicks); see the scroll motion pass below.
 - Te reo Māori words carry macrons. Sourcing claims stay neutral (no "authenticated" or iwi claims unless confirmed).
 - Prices are placeholders.
 
@@ -96,3 +96,30 @@ Tokens: Silver #D6DADF (page), Indigo #1C2449 (text), Pounamu #2F6B4F, Turquoise
 - One photo grade per concept (A darker and moodier, B cooler).
 - A: a single gold hairline accent (#C2A46E), portrait image crops with an offset gold outline (pebble masks dropped), more space.
 - B: chapters alternate deep indigo and pale silver; stone colour appears only in the gem and the chapter title.
+
+## Scroll motion pass (2026-10-09)
+
+The user asked for scroll animations, more exciting sections and an eye-catching chooser. Each concept's scroll motion borrows its own hero's language rather than generic fade-ups.
+
+`shared/motion.js` is a small scroll engine: one requestAnimationFrame loop that runs only while the page moves, reads every nearby scene's position before any scene writes, and adds `html.motion` only when reduced motion is off. All hidden start states live under `.motion`, so without JS or with reduced motion every scene shows its finished state.
+
+Concept A (`design-a/scroll.js`, forms in `main.js`): cut, carve, light through stone.
+- Hero: scrolling away pushes the view into the stone (`u_scroll` in the shader) while the copy falls behind.
+- Headings are cut open along the hero's diagonal and carved (FLAR 0 to 100). The gift headline is carved word by word with scroll.
+- Gift: a toki is lowered on its cord, turns as the page moves, sways with scroll speed and swings if the pointer brushes it.
+- Forms: a pinned stage across a tall track; each form's gold outline is traced, the jade fills in, then light comes through. The picker marker glides between names; buttons and arrow keys jump to a form.
+- Collection: a light travels behind the plinths and each stone glows as it passes.
+- Treasures: photos split open along the hero's cut with a seam of green light; columns drift at different depths.
+- Story: the stall photographs drift past in a row (swipeable row under reduced motion).
+- Sign-up: a koru frond (new beginnings) unfurls with a point of light at its tip.
+
+Concept B (`design-b/scroll.js`): engrave, set, travel.
+- Hero: the raking light lowers as you scroll away, so the engraving glints.
+- Headings are cut in outline, then inked.
+- Saying: an engraved silver globe (Canvas 2D, graticule only) sits beside the text and draws a route from Camden Lock to each stone in order of distance, ending on the one view that keeps all four in sight. The key below counts each distance up.
+- Chapters: photos appear through engraving lines that thicken until solid; the stone is pressed into its bezel and glints; coordinates count up; opal's colour plays as you scroll past.
+- Story: four roads in the stone colours run from the page corners and each stone sets itself into a corner of the stall photo.
+- Pieces: a raking light passes across each photo in turn.
+- Sign-up: the Agadez cross is engraved line by line.
+
+Chooser (`index.html`, `chooser.js`): one WebGL canvas shows pounamu and engraved silver meeting at a jagged seam. A crack of light draws down the seam on arrival and both materials open from it; the pointer is a light for both; hovering a side widens it and the seam follows the panel edge. A's title is carved and B's is engraved then inked. On narrow screens the seam is horizontal. CSS gradient fallback without WebGL.

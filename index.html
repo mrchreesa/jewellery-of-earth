@@ -5,106 +5,157 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jewellery of the Earth | Homepage concepts</title>
   <meta name="robots" content="noindex">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='16' height='32' fill='%230E3426'/%3E%3Crect x='16' width='16' height='32' fill='%23D6DADF'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#0E3426">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M0 0h19L13 32H0z' fill='%230E3426'/%3E%3Cpath d='M19 0h13v32H13z' fill='%23D6DADF'/%3E%3C/svg%3E">
   <link rel="preload" href="shared/fonts/commissioner-var-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="shared/fonts/bodoni-moda-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="shared/fonts/schibsted-grotesk-var-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="shared/fonts/fonts.css">
+  <script>
+    document.documentElement.classList.add("js");
+    // Failsafe: show the words even if the canvas never opens.
+    setTimeout(function () { document.documentElement.classList.add("is-open"); }, 4500);
+  </script>
+  <script src="chooser.js" defer></script>
   <style>
     :root {
-      --kawakawa: #0E3426; --inanga: #D3E0D0; --glow: #8EF0B4;
-      --silver: #D6DADF; --indigo: #1C2449; --pounamu: #2F6B4F; --turquoise: #2BA39A; --amber: #D9861C;
+      --kawakawa: #0E3426; --inanga: #D3E0D0; --inanga-dim: rgb(211 224 208 / .74); --glow: #8EF0B4; --gold: #C2A46E;
+      --silver: #D6DADF; --silver-hi: #EEF0F2; --indigo: #1C2449; --indigo-soft: rgb(28 36 73 / .78);
+      --gutter: clamp(20px, 4.4vw, 72px);
       --ease: cubic-bezier(.2, .7, .1, 1);
+      --slow: cubic-bezier(.25, .1, .1, 1);
     }
     * { box-sizing: border-box; }
-    html, body { margin: 0; }
-    body { background: #fff; color: #1d2320; font-family: "Schibsted Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-    .bar {
-      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 24px;
-      padding: 14px clamp(16px, 3vw, 32px); font-size: .95rem;
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: #030605; color: var(--inanga);
+      font-family: "Schibsted Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
-    .bar strong { font-weight: 600; }
-    .bar span { color: #5d6461; }
-    .concepts { display: flex; min-height: calc(100svh - 50px); }
+
+    /* One canvas behind both panels: the two materials and the seam between them. */
+    #seam { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
+
+    .concepts { position: relative; display: flex; min-height: 100vh; min-height: 100svh; }
     .concept {
-      position: relative; flex: 1 1 0; display: flex; flex-direction: column; justify-content: flex-end;
-      overflow: hidden; text-decoration: none; isolation: isolate;
-      padding: clamp(28px, 5vw, 64px); transition: flex-grow .9s var(--ease);
+      position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column;
+      padding: clamp(24px, 3.4vw, 48px) var(--gutter) clamp(36px, 7vh, 80px);
+      text-decoration: none; isolation: isolate;
+      transition: flex-grow 1.1s var(--ease);
     }
-    .concept:hover, .concept:focus-visible { flex-grow: 1.35; }
-    .concept:focus-visible { outline: 3px solid var(--glow); outline-offset: -6px; }
-    .concept__text { position: relative; display: grid; gap: 14px; justify-items: start; max-width: 32rem; }
-    .concept h2 { margin: 0; line-height: 1; }
-    .concept p { margin: 0; line-height: 1.55; max-width: 34em; }
+    .concept:hover, .concept:focus-visible { flex-grow: 1.42; }
+    .concept:focus-visible { outline: none; }
+    .concept:focus-visible .open { outline: 1px solid currentColor; outline-offset: 6px; }
+
+    /* Scrims keep the words legible over the materials. */
+    .concept::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; transition: opacity 1.8s var(--slow) .6s; }
+    .js:not(.is-open) .concept::before { opacity: 0; }
+    .a::before { background: radial-gradient(ellipse 90% 60% at 0% 100%, rgb(2 14 9 / .78), transparent 70%), linear-gradient(rgb(2 14 9 / .5), transparent 22%); }
+    .b::before { background: radial-gradient(ellipse 100% 68% at 100% 100%, rgb(238 240 242 / .86), rgb(238 240 242 / .5) 45%, transparent 75%), linear-gradient(rgb(238 240 242 / .55), transparent 22%); }
+
+    .concept__top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: auto; font-size: .8125rem; line-height: 1.5; }
+    .wordmark { margin: 0; font-size: .75rem; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: var(--inanga); }
+    .brief { margin: 0 0 0 auto; max-width: 22rem; text-align: right; color: var(--indigo-soft); }
+    .brief strong { font-weight: 600; color: var(--indigo); }
+
+    .concept__text { display: grid; justify-items: start; gap: 18px; max-width: 34rem; padding-top: 18vh; }
+    .b .concept__text { margin-left: auto; }
+    .concept h2 { margin: 0; line-height: .98; text-wrap: balance; }
+    .concept p { margin: 0; max-width: 31em; line-height: 1.6; font-size: 1rem; text-wrap: pretty; }
     .open {
-      display: inline-flex; align-items: center; min-height: 52px; padding: 0 30px;
-      font-size: .72rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; margin-top: 12px; transition: transform .8s var(--ease);
+      display: inline-flex; align-items: center; min-height: 54px; padding: 0 32px; margin-top: 14px;
+      font-size: .72rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase;
+      transition: background-color .6s var(--slow), color .6s var(--slow);
     }
-    .concept:hover .open { transform: translateX(6px); }
 
-    /* Concept A: polished greenstone, lit from behind */
-    .a { background: var(--kawakawa); color: var(--inanga); font-family: "Commissioner", sans-serif; }
-    .a::before {
-      content: ""; position: absolute; inset: 0; z-index: -1;
-      background:
-        radial-gradient(circle at 68% 34%, rgb(142 240 180 / .55), transparent 28%),
-        radial-gradient(ellipse 60% 50% at 70% 36%, #2f7a52 0%, #164a34 45%, transparent 75%),
-        radial-gradient(ellipse 80% 30% at 20% 80%, rgb(211 224 208 / .07), transparent 70%),
-        var(--kawakawa);
-      transition: transform 1.4s var(--ease);
+    /* A: Commissioner, carved (FLAR) once the seam opens. */
+    .a { color: var(--inanga); }
+    .a h2 {
+      font-family: "Commissioner", sans-serif; font-weight: 200; letter-spacing: -.035em;
+      font-size: clamp(2.8rem, 1.2rem + 4.6vw, 6.4rem); font-variation-settings: "FLAR" 100, "VOLM" 0;
     }
-    .a:hover::before { transform: scale(1.04); }
-    .a h2 { font-size: clamp(2.6rem, 5vw, 4.6rem); font-weight: 300; font-variation-settings: "FLAR" 100, "VOLM" 0; letter-spacing: -.01em; }
+    .a p { color: var(--inanga-dim); font-family: "Commissioner", sans-serif; font-weight: 330; }
     .a .open { background: var(--inanga); color: var(--kawakawa); }
+    .a:hover .open, .a:focus-visible .open { background: var(--gold); }
 
-    /* Concept B: engraved silver with four set stones */
-    .b { background: var(--silver); color: var(--indigo); }
-    .b::before {
-      content: ""; position: absolute; inset: 0; z-index: -1;
+    /* B: Bodoni Moda, engraved in outline then inked. */
+    .b { color: var(--indigo); }
+    .b h2 {
+      font-family: "Bodoni Moda", serif; font-weight: 500; letter-spacing: -.015em;
+      font-size: clamp(2.8rem, 1.2rem + 4.6vw, 6.4rem); font-variation-settings: "opsz" 72;
+    }
+    .b p { color: rgb(28 36 73 / .88); }
+    .b .open { background: var(--indigo); color: var(--silver-hi); }
+    .b:hover .open, .b:focus-visible .open { background: #2b3870; }
+
+    /* The other concept steps back while one is chosen. */
+    .concepts:hover .concept:not(:hover) .concept__text { opacity: .5; }
+    .concept__text { transition: opacity .8s var(--slow); }
+
+    /* Arrival: the words come in once the seam has opened. A's title is
+       carved (FLAR), B's is engraved in outline and then inked. */
+    .a h2 { transition: opacity 1.2s var(--slow) .2s, font-variation-settings 2.8s var(--slow) .5s, letter-spacing 2.8s var(--slow) .3s; }
+    .js .b h2 {
+      color: transparent; padding-bottom: .08em; -webkit-text-stroke: .8px transparent;
+      background: linear-gradient(var(--indigo), var(--indigo)) 0 0 / 100% 100% no-repeat;
+      -webkit-background-clip: text; background-clip: text;
+      transition: opacity .6s var(--slow) .2s, background-size 2s cubic-bezier(.6, 0, .2, 1) .9s, -webkit-text-stroke-color 1.2s var(--slow) 2.7s;
+    }
+    .concept p { transition: opacity 1.4s var(--slow) 1.1s; }
+    .open { transition: opacity 1.4s var(--slow) 1.4s, background-color .6s var(--slow), color .6s var(--slow); }
+    .concept__top { transition: opacity 1.6s var(--slow) 1.6s; }
+    .js:not(.is-open) .a h2 { opacity: 0; font-variation-settings: "FLAR" 0, "VOLM" 0; letter-spacing: .01em; }
+    .js:not(.is-open) .b h2 { opacity: 0; background-size: 0% 100%; -webkit-text-stroke-color: var(--indigo); }
+    .js:not(.is-open) .concept p, .js:not(.is-open) .open, .js:not(.is-open) .concept__top { opacity: 0; }
+
+    /* Without WebGL each panel paints its own material. */
+    .no-gl #seam { display: none; }
+    .no-gl .a, html:not(.js) .a {
+      background:
+        radial-gradient(circle at 68% 34%, rgb(142 240 180 / .5), transparent 28%),
+        radial-gradient(ellipse 60% 50% at 70% 36%, #2f7a52 0%, #164a34 45%, transparent 75%),
+        var(--kawakawa);
+    }
+    .no-gl .b, html:not(.js) .b {
       background:
         repeating-linear-gradient(135deg, transparent 0 18px, rgb(28 36 73 / .07) 18px 19px),
         repeating-linear-gradient(45deg, transparent 0 18px, rgb(28 36 73 / .07) 18px 19px),
         linear-gradient(160deg, #eef0f2, #c3c8ce 60%, #e2e5e8);
     }
-    .b .stones { position: absolute; top: 16%; right: 14%; width: 190px; height: 190px; }
-    .b .stones i {
-      position: absolute; width: 58px; height: 58px; border-radius: 50%;
-      box-shadow: 0 0 0 5px #e9ecef, 0 0 0 6px rgb(28 36 73 / .35), 0 8px 18px rgb(28 36 73 / .3);
-    }
-    .b .stones i:nth-child(1) { left: 66px; top: 0; background: radial-gradient(circle at 35% 30%, #7fbf98, var(--pounamu) 55%, #123826); }
-    .b .stones i:nth-child(2) { right: 0; top: 66px; background: radial-gradient(circle at 35% 30%, #9fe3d8, var(--turquoise) 55%, #165c56); }
-    .b .stones i:nth-child(3) { left: 66px; bottom: 0; background: radial-gradient(circle at 35% 30%, #ffd58a, var(--amber) 55%, #7a3f05); }
-    .b .stones i:nth-child(4) { left: 0; top: 66px; background: conic-gradient(from 40deg, #9fd8ff, #ffb3e0, #c8ffb0, #fff3a6, #9fd8ff); }
-    .b h2 { font-family: "Bodoni Moda", serif; font-size: clamp(2.6rem, 5vw, 4.6rem); font-weight: 560; font-variation-settings: "opsz" 40; letter-spacing: -.01em; }
-    .b .open { background: var(--indigo); color: var(--silver); }
 
     @media (max-width: 760px) {
       .concepts { flex-direction: column; }
-      .concept { min-height: 72svh; }
-      .b .stones { top: 10%; right: 10%; transform: scale(.8); transform-origin: top right; }
+      .concept { min-height: 50svh; padding-top: 22px; padding-bottom: 32px; }
+      .concept__text { padding-top: 28px; }
+      .concept:hover, .concept:focus-visible { flex-grow: 1.18; }
+      .a::before { background: linear-gradient(to top, rgb(2 14 9 / .8), transparent 70%), linear-gradient(rgb(2 14 9 / .55), transparent 30%); }
+      .b::before { background: linear-gradient(to top, rgb(238 240 242 / .86), rgb(238 240 242 / .55) 75%, rgb(238 240 242 / .2)); }
+      .b .concept__top { order: 2; margin: 28px 0 0; }
+      .b .concept__text { margin-left: 0; margin-top: auto; }
+      .brief { text-align: left; margin: 0; }
+      .concept p { font-size: .9375rem; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .concept, .concept::before, .open { transition: none; }
+      *, *::before, *::after { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; }
     }
   </style>
 </head>
 <body>
-  <header class="bar">
-    <strong>Jewellery of the Earth: two homepage concepts</strong>
-    <span>Prepared by WebM8, October 2026. Choose one to take forward.</span>
-  </header>
+  <canvas id="seam" aria-hidden="true"></canvas>
   <main class="concepts">
     <a class="concept a" href="design-a/">
+      <div class="concept__top"><p class="wordmark">Jewellery of the Earth</p></div>
       <div class="concept__text">
         <h2>Held to the light</h2>
-        <p>Pounamu first. A river stone splits open on arrival and glows wherever your cursor shines through it, the way greenstone does when you hold it up to the sun.</p>
+        <p>Pounamu first. A river stone splits open on arrival and glows wherever your cursor shines through it, the way greenstone does when you hold it up to the sun. As you scroll, each traditional form is carved before your eyes.</p>
         <span class="open">Open concept A</span>
       </div>
     </a>
     <a class="concept b" href="design-b/">
-      <div class="stones" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="concept__top"><p class="brief"><strong>Two homepage concepts from WebM8,</strong> October 2026. Choose one to take forward.</p></div>
       <div class="concept__text">
         <h2>Four corners of the world</h2>
-        <p>The whole collection. A Tuareg silver plate is engraved before your eyes and four stones are set into it: pounamu, turquoise, amber and opal, each a door into where it came from.</p>
+        <p>The whole collection. A Tuareg silver plate is engraved before your eyes and four stones are set into it. As you scroll, a silver globe traces each stone’s journey to the stall at Camden Lock.</p>
         <span class="open">Open concept B</span>
       </div>
     </a>
