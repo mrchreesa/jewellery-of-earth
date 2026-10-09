@@ -12,8 +12,10 @@
   <link rel="stylesheet" href="../shared/fonts/fonts.css">
   <link rel="stylesheet" href="style.css">
   <script>document.documentElement.classList.add("js");</script>
+  <script src="../shared/motion.js" defer></script>
   <script src="hero.js" defer></script>
   <script src="main.js" defer></script>
+  <script src="scroll.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -67,11 +69,27 @@
     </section>
 
     <section id="saying" class="saying" aria-labelledby="saying-title">
-      <h2 id="saying-title" class="saying__title">Four corners, one stall</h2>
-      <div class="saying__body">
+      <div class="saying__text">
+        <h2 id="saying-title" class="saying__title">Four corners, one stall</h2>
         <p class="saying__quote">“I give you the four corners of the world, because no one can know where they will die.”</p>
-        <p>The Tuareg are nomadic people of the Sahara, and their smiths are known for silver engraved by hand, line by line. The Agadez cross, with its four arms, is said to point to the four corners of the world. Fathers pass it to their sons with these words.</p>
-        <p>We took the saying to heart. For years our stall at Camden Lock gathered stones from the four corners: greenstone from Aotearoa, silver and turquoise from the Sahara, amber from the Baltic shore, opal from the Australian outback. Distances above are measured from the stall.</p>
+        <div class="saying__body">
+          <p>The Tuareg are nomadic people of the Sahara, and their smiths are known for silver engraved by hand, line by line. The Agadez cross, with its four arms, is said to point to the four corners of the world. Fathers pass it to their sons with these words.</p>
+          <p>We took the saying to heart. For years our stall at Camden Lock gathered stones from the four corners: amber from the Baltic shore, silver and turquoise from the Sahara, opal from the Australian outback, and greenstone from Aotearoa, as far from London as you can go.</p>
+        </div>
+      </div>
+      <div class="saying__map">
+        <figure class="globe" data-globe>
+          <canvas class="globe__canvas" aria-hidden="true"></canvas>
+          <figcaption class="globe__key">
+            <p class="globe__caption">How far each stone travelled to the stall</p>
+            <ul class="globe__legs" role="list">
+              <li class="leg" data-leg="amber"><span class="leg__gem" aria-hidden="true"></span><span class="leg__name">Amber</span><span class="leg__place">Baltic coast</span><span class="leg__km"><span data-km="1400">1,400</span> km</span></li>
+              <li class="leg" data-leg="turquoise"><span class="leg__gem" aria-hidden="true"></span><span class="leg__name">Turquoise</span><span class="leg__place">The Sahara</span><span class="leg__km"><span data-km="3900">3,900</span> km</span></li>
+              <li class="leg" data-leg="opal"><span class="leg__gem" aria-hidden="true"></span><span class="leg__name">Opal</span><span class="leg__place">The outback</span><span class="leg__km"><span data-km="15500">15,500</span> km</span></li>
+              <li class="leg" data-leg="pounamu"><span class="leg__gem" aria-hidden="true"></span><span class="leg__name">Pounamu</span><span class="leg__place">Aotearoa</span><span class="leg__km"><span data-km="18800">18,800</span> km</span></li>
+            </ul>
+          </figcaption>
+        </figure>
       </div>
     </section>
 
@@ -81,7 +99,7 @@
         <span class="chapter__gem" aria-hidden="true"></span>
       </figure>
       <div class="chapter__text">
-        <p class="chapter__place">Arahura River, Aotearoa New Zealand<br><span>42.7° S, 171.0° E. 18,800 km from Camden Lock</span></p>
+        <p class="chapter__place">Arahura River, Aotearoa New Zealand<br><span><span data-count="42.7">42.7</span>° S, <span data-count="171.0">171.0</span>° E. <span data-count="18800">18,800</span> km from Camden Lock</span></p>
         <h2 id="ch-pounamu-title">Pounamu</h2>
         <p>New Zealand's South Island is called Te Waipounamu, the waters of greenstone. The stone is found as boulders in West Coast rivers like the Arahura, and Ngāi Tahu are its kaitiaki, its guardians.</p>
         <p>Carved into koru, hei matau and toki, pounamu is traditionally given rather than bought for yourself, and passed down through families. Our stall held the largest collection of carved pounamu outside New Zealand.</p>
@@ -95,7 +113,7 @@
         <span class="chapter__gem" aria-hidden="true"></span>
       </figure>
       <div class="chapter__text">
-        <p class="chapter__place">Agadez, Niger, on the edge of the Sahara<br><span>17.0° N, 8.0° E. 3,900 km from Camden Lock</span></p>
+        <p class="chapter__place">Agadez, Niger, on the edge of the Sahara<br><span><span data-count="17.0">17.0</span>° N, <span data-count="8.0">8.0</span>° E. <span data-count="3900">3,900</span> km from Camden Lock</span></p>
         <h2 id="ch-turquoise-title">Silver and turquoise</h2>
         <p>Tuareg smiths cut their patterns into silver by hand: triangles, chevrons and rows of dots, built up stroke by stroke like the plate at the top of this page. Pieces were made to be worn on the move, across the desert.</p>
         <p>Here Tuareg silver sits beside turquoise strands and inlaid rings, the stone the colour of a desert sky.</p>
@@ -109,7 +127,7 @@
         <span class="chapter__gem" aria-hidden="true"></span>
       </figure>
       <div class="chapter__text">
-        <p class="chapter__place">The Baltic coast<br><span>54.9° N, 19.9° E. 1,400 km from Camden Lock</span></p>
+        <p class="chapter__place">The Baltic coast<br><span><span data-count="54.9">54.9</span>° N, <span data-count="19.9">19.9</span>° E. <span data-count="1400">1,400</span> km from Camden Lock</span></p>
         <h2 id="ch-amber-title">Amber</h2>
         <p>Baltic amber is resin from forests that grew around 40 million years ago. Storms still wash it up on the shores of the Baltic Sea.</p>
         <p>Hold a piece to the light and you might find an insect that landed in the resin and never left. The block in this photo has one.</p>
@@ -123,7 +141,7 @@
         <span class="chapter__gem" aria-hidden="true"></span>
       </figure>
       <div class="chapter__text">
-        <p class="chapter__place">Coober Pedy, South Australia<br><span>29.0° S, 134.8° E. 15,500 km from Camden Lock</span></p>
+        <p class="chapter__place">Coober Pedy, South Australia<br><span><span data-count="29.0">29.0</span>° S, <span data-count="134.8">134.8</span>° E. <span data-count="15500">15,500</span> km from Camden Lock</span></p>
         <h2 id="ch-opal-title">Opal</h2>
         <p>Opal forms where water carried silica deep underground and left it to set, layer on layer. Its flashes of colour come from light bending through tiny spheres of silica packed inside.</p>
         <p>Most of the world's precious opal comes from the Australian outback. Ours sits alongside moonstone and labradorite, stones that also change as you turn them.</p>
@@ -132,6 +150,15 @@
     </section>
 
     <section id="story" class="story" aria-labelledby="story-title">
+      <svg class="roads" aria-hidden="true" focusable="false"></svg>
+      <svg class="roads roads--gems" aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="gem-amber" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#FFF1C2"/><stop offset=".3" stop-color="#F5B54A"/><stop offset=".6" stop-color="#D9861C"/><stop offset="1" stop-color="#6E3204"/></radialGradient>
+          <radialGradient id="gem-turquoise" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#C9F3EC"/><stop offset=".3" stop-color="#59C8BD"/><stop offset=".6" stop-color="#2BA39A"/><stop offset="1" stop-color="#13544F"/></radialGradient>
+          <radialGradient id="gem-pounamu" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#CFEBD9"/><stop offset=".3" stop-color="#4D9A70"/><stop offset=".6" stop-color="#2F6B4F"/><stop offset="1" stop-color="#12382A"/></radialGradient>
+          <radialGradient id="gem-opal" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".25" stop-color="#9FE8FF"/><stop offset=".5" stop-color="#FF9FD0"/><stop offset=".75" stop-color="#8E7BFF"/><stop offset="1" stop-color="#2B3D7A"/></radialGradient>
+        </defs>
+      </svg>
       <div class="story__text">
         <h2 id="story-title">Every road led to Camden Lock</h2>
         <p>For years, Jewellery of the Earth was a stall in Camden Lock Market, its walls hung with hundreds of pendants and its trays full of rings. Travellers stopped to find stones from places they'd been, or wanted to go.</p>
@@ -150,28 +177,28 @@
       </div>
       <ul class="pieces__list" role="list">
         <li class="piece">
-          <img src="../shared/img/stall-pounamu.jpg" width="640" height="640" loading="lazy" alt="Pounamu pendants in koru, twist and hook forms">
+          <div class="piece__media"><img src="../shared/img/stall-pounamu.jpg" width="640" height="640" loading="lazy" alt="Pounamu pendants in koru, twist and hook forms"></div>
           <h3>Pounamu pendants</h3>
           <p class="piece__meta">Hand-carved, Aotearoa</p>
           <p class="piece__price">From £65</p>
           <button class="piece__add" type="button" data-add-to-bag>Add to bag</button>
         </li>
         <li class="piece">
-          <img src="../shared/img/amber-turquoise.jpg" width="640" height="640" loading="lazy" alt="A silver ring set with marquise-cut amber beside a ring set with a triangle of turquoise">
+          <div class="piece__media"><img src="../shared/img/amber-turquoise.jpg" width="640" height="640" loading="lazy" alt="A silver ring set with marquise-cut amber beside a ring set with a triangle of turquoise"></div>
           <h3>Amber and turquoise rings</h3>
           <p class="piece__meta">Sterling silver</p>
           <p class="piece__price">From £55</p>
           <button class="piece__add" type="button" data-add-to-bag>Add to bag</button>
         </li>
         <li class="piece">
-          <img src="../shared/img/rings-labradorite.jpg" width="640" height="640" loading="lazy" alt="A labradorite ring and an inlaid turquoise ring worn on one hand">
+          <div class="piece__media"><img src="../shared/img/rings-labradorite.jpg" width="640" height="640" loading="lazy" alt="A labradorite ring and an inlaid turquoise ring worn on one hand"></div>
           <h3>Labradorite and inlay</h3>
           <p class="piece__meta">Sterling silver</p>
           <p class="piece__price">From £70</p>
           <button class="piece__add" type="button" data-add-to-bag>Add to bag</button>
         </li>
         <li class="piece">
-          <img src="../shared/img/wolves.jpg" width="640" height="640" loading="lazy" alt="Wolf head pendants carved from lapis, rose quartz, jasper and other stones">
+          <div class="piece__media"><img src="../shared/img/wolves.jpg" width="640" height="640" loading="lazy" alt="Wolf head pendants carved from lapis, rose quartz, jasper and other stones"></div>
           <h3>Carved stone wolves</h3>
           <p class="piece__meta">Lapis, rose quartz, jasper</p>
           <p class="piece__price">£38</p>
@@ -181,6 +208,16 @@
     </section>
 
     <section id="signup" class="signup" aria-labelledby="signup-title">
+      <!-- The Agadez cross, engraved line by line as the section arrives. -->
+      <svg class="cross" viewBox="0 0 240 340" aria-hidden="true" focusable="false">
+        <path data-at="0 .5" pathLength="1" d="M 103 124 A 46 58 0 1 1 137 124 L 137 128 L 200 130 L 220 139 L 200 148 L 150 150 L 176 212 L 120 326 L 64 212 L 90 150 L 40 148 L 20 139 L 40 130 L 103 128 Z"/>
+        <path data-at=".3 .55" pathLength="1" d="M 100 68 A 20 30 0 1 0 140 68 A 20 30 0 1 0 100 68 Z"/>
+        <path data-at=".42 .56" pathLength="1" d="M 222 139 A 6 6 0 1 0 234 139 A 6 6 0 1 0 222 139 Z M 6 139 A 6 6 0 1 0 18 139 A 6 6 0 1 0 6 139 Z"/>
+        <path data-at=".5 .72" pathLength="1" d="M 120 176 L 148 216 L 120 290 L 92 216 Z"/>
+        <path data-at=".6 .8" pathLength="1" d="M 120 198 L 133 218 L 120 262 L 107 218 Z"/>
+        <path data-at=".66 .9" pathLength="1" d="M 50 133 L 56 139 L 50 145 M 64 133 L 70 139 L 64 145 M 78 133 L 84 139 L 78 145 M 190 133 L 184 139 L 190 145 M 176 133 L 170 139 L 176 145 M 162 133 L 156 139 L 162 145"/>
+        <path data-at=".72 .95" pathLength="1" d="M 100 156 L 120 170 L 140 156"/>
+      </svg>
       <div class="signup__inner">
         <h2 id="signup-title">The shop opens soon</h2>
         <p>Leave your email and we'll let you know the day it opens.</p>

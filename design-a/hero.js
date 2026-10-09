@@ -34,6 +34,7 @@
     "uniform float u_reveal;",
     "uniform vec2 u_light;",
     "uniform float u_lightAmt;",
+    "uniform float u_scroll;",
 
     // Simplex noise: Ian McEwan, Ashima Arts (MIT).
     "vec3 permute(vec3 x){ return mod(((x*34.0)+1.0)*x, 289.0); }",
@@ -67,6 +68,10 @@
     "void main(){",
     "  vec2 uv = gl_FragCoord.xy / u_res;",
     "  vec2 p = (gl_FragCoord.xy - 0.5 * u_res) / min(u_res.x, u_res.y);",
+    // Scrolling away pushes the view into the stone.
+    "  float zoom = 1.0 - 0.32 * u_scroll;",
+    "  p *= zoom;",
+    "  vec2 lt = u_light * zoom;",
 
     // The cut: a jagged line rising gently left to right.
     "  vec2 tang = normalize(vec2(1.0, 0.32));",
@@ -113,12 +118,12 @@
     "    vec3 L1 = normalize(vec3(-0.5, 0.7, 0.75));",
     "    float diff = max(dot(N, L1), 0.0);",
     "    float spec1 = pow(max(dot(N, normalize(L1 + V)), 0.0), 40.0);",
-    "    vec3 L2 = normalize(vec3(u_light - p, 0.7));",
+    "    vec3 L2 = normalize(vec3(lt - p, 0.7));",
     "    float spec2 = pow(max(dot(N, normalize(L2 + V)), 0.0), 90.0);",
     "    float silk = pow(max(dot(N, normalize(L2 + V)), 0.0), 12.0) * (0.5 + 0.5 * fib);",
 
     // Light passing through the stone from behind the pointer.
-    "    float d = length(p - u_light);",
+    "    float d = length(p - lt);",
     "    float glow = 1.2 * exp(-d * d * 9.0) + 0.34 * exp(-d * d * 1.3);",
     "    float trans = glow * exp(-thick * 2.0) * (1.0 - fleck * 0.95) * u_lightAmt;",
     "    vec3 tint = mix(vec3(0.2, 0.85, 0.45), vec3(0.75, 1.0, 0.82), milky * 0.6);",
@@ -160,7 +165,7 @@
     "  float halo = exp(-ad * 22.0) * traced * seam * 0.35;",
     "  col += vec3(0.55, 1.0, 0.7) * (crack * 1.4 + halo) * step(0.0001, u_crack);",
 
-    "  col *= u_intro;",
+    "  col *= u_intro * (1.0 - 0.4 * u_scroll);",
     "  col *= 1.0 - 0.45 * pow(length((uv - 0.5) * vec2(1.1, 1.3)), 2.2);",
     "  col = 1.0 - exp(-col * 1.35);",
     "  col += (hash(gl_FragCoord.xy + fract(u_time)) - 0.5) / 255.0;",
@@ -175,6 +180,7 @@
   var light = { x: 0.3, y: 0.12 }, target = { x: 0.3, y: 0.12 };
   var lastPointer = -1e9, lit = false;
   var slowFrames = 0, sampledFrames = 0;
+  var scrolled = 0;
 
   function compile(type, src) {
     var s = gl.createShader(type);
@@ -205,7 +211,7 @@
     var aPos = gl.getAttribLocation(prog, "a_pos");
     gl.enableVertexAttribArray(aPos);
     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-    ["u_res", "u_time", "u_intro", "u_crack", "u_reveal", "u_light", "u_lightAmt"].forEach(function (n) {
+    ["u_res", "u_time", "u_intro", "u_crack", "u_reveal", "u_light", "u_lightAmt", "u_scroll"].forEach(function (n) {
       loc[n] = gl.getUniformLocation(prog, n);
     });
     return true;
@@ -256,6 +262,7 @@
     gl.uniform1f(loc.u_reveal, reveal);
     gl.uniform2f(loc.u_light, light.x, light.y);
     gl.uniform1f(loc.u_lightAmt, lightAmt);
+    gl.uniform1f(loc.u_scroll, reduceMotion ? 0 : scrolled);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
 
     if (!opened && (reveal > 0.06 || reduceMotion)) {
@@ -275,6 +282,10 @@
     var k = 1 - Math.exp(-dt * (now - lastPointer > 3000 ? 1.5 : 7));
     light.x += (target.x - light.x) * k;
     light.y += (target.y - light.y) * k;
+
+    var hr = hero.getBoundingClientRect();
+    var s = clamp01(-hr.top / Math.max(1, hr.height));
+    scrolled += (s - scrolled) * (1 - Math.exp(-dt * 14));
 
     draw(t);
 

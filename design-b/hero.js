@@ -264,6 +264,7 @@
   var light = { x: 0, y: 0 }, target = { x: 0, y: 0 };
   var lastPointer = -1e9, tilt = 0, tiltTarget = 0;
   var hover = [0, 0, 0, 0], hoverTarget = [0, 0, 0, 0];
+  var scrolled = 0;
   var engr = document.createElement("canvas");
 
   Array.prototype.forEach.call(hero.querySelectorAll(".stone"), function (el) { stoneEls[el.dataset.stone] = el; });
@@ -525,7 +526,8 @@
     gl.uniform2f(loc.u_texel, 1 / canvas.width, 1 / canvas.height);
     gl.uniform1f(loc.u_time, t);
     gl.uniform1f(loc.u_engrave, engrave);
-    gl.uniform2f(loc.u_light, light.x, light.y);
+    // Scrolling away lowers the raking light, so the engraving glints as it passes.
+    gl.uniform2f(loc.u_light, light.x, light.y - (reduceMotion ? 0 : scrolled) * canvas.height * 0.9);
     gl.uniform1f(loc.u_tilt, tilt);
     gl.uniform3fv(loc.u_stone, sArr);
     gl.uniform1fv(loc.u_stoneT, tArr);
@@ -560,6 +562,8 @@
     if (idle) tiltTarget = Math.sin(t * 0.21) * 0.4;
     tilt += (tiltTarget - tilt) * (1 - Math.exp(-dt * 4));
     for (var i = 0; i < 4; i++) hover[i] += (hoverTarget[i] - hover[i]) * (1 - Math.exp(-dt * 10));
+    var hr = hero.getBoundingClientRect();
+    scrolled += (clamp01(-hr.top / Math.max(1, hr.height)) - scrolled) * (1 - Math.exp(-dt * 14));
 
     draw(t);
     raf = requestAnimationFrame(frame);
